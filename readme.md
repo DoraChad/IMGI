@@ -12,7 +12,7 @@ The data can definatley be stored more efficiently, and scaling the amount of da
 The images use the red, green, and blue buffers (3 bytes per pixel) to encode data. The alpha buffer is turned off due to rounding errors causing data to be lost.
 
 ## v1:
-### Step 1: Calculate image dimensions
+### Calculating image dimensions
 All export images are squares. This means that most data won't perfectly fit into a square. The code first calculates the amount of pixels that the data would take up:
 - Normal Block: 4 pixels
 - Checkpoint/Start: 5 pixels
@@ -51,5 +51,11 @@ Normal Blocks contain this data:
 This fits snuggly into 4 pixels per block. However, blocks like checkpoints and start blocks require extra data (checkpointOrder and startOrder), causing their data to have to be stored in 5 pixels instead.
 
 For the position data, 3 bytes are allocated to it:
-- [sign][high][low]
+- [sign] [high] [low]
 The sign indicates if the number is negative or positive with values of either 0 or 128 (which is why we can use 255 as an id identifier). The remaining bytes are used to store the actual position of the block on that axis.
+
+The rotation, rotation axis, and color all have data that never exceeds 255, so it can all be stored together in one pixel (rotation has 4 options, axis has 6 options, and I honestly don't know how many colors there are but it's less than 255)
+
+For the special case of the specific blocks which require extra data to be stored, it only uses 1 byte to store it's data.
+
+As you can see, this initial version is quite inefficient and can be greatly improved
