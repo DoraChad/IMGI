@@ -52,6 +52,7 @@ This fits snuggly into 4 pixels per block. However, blocks like checkpoints and 
 
 For the position data, 3 bytes are allocated to it:
 - [sign] [high] [low]
+  
 The sign indicates if the number is negative or positive with values of either 0 or 128 (which is why we can use 255 as an id identifier). The remaining bytes are used to store the actual position of the block on that axis.
 
 The rotation, rotation axis, and color all have data that never exceeds 255, so it can all be stored together in one pixel (rotation has 4 options, axis has 6 options, and I honestly don't know how many colors there are but it's less than 255)
